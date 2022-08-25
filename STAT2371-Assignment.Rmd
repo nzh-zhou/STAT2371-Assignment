@@ -25,5 +25,63 @@ header-includes:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+\fancypagestyle{firststyle}{
+   \fancyhf{}
+   \fancyhead[L]{}
+   \fancyhead[R]{}
+   \fancyfoot[C]{Page \thepage}
+   \renewcommand{\headrulewidth}{0pt}
+}
+\thispagestyle{firststyle}
+
 # Question 1
+
+\textbf{Suppose that two independent binomial random variables $X_1$ and $X_2$ are observed where $X_1$ has a Binomial($n$, $p$) distribution and $X_2$ has a Binomial($2n, p$) distribution. You may assume that $n$ is known, whereas $p$ is an unknown parameter. Define two possible estimators of $p$}
+\begin{equation*}
+\hat{p}_1 = \frac{1}{3n}(X_1 +X_2) \textbf{~~~and~~~~} \hat{p}_2 = \frac{1}{2n}(X_1 + 0.5X_2)\textbf{.}
+\end{equation*}
+\begin{enumerate}
+  \item \textbf{Show that both of the estimators $\hat{p}_1$ and $\hat{p}_2$ are unbiased estimators of $p$.}
+\end{enumerate}
+
+\begin{align*}
+E(\hat{p}_1) &= \frac{1}{3n}(E(X_1) + E(X_2)) \text{~~~applying expected value linearity} \\
+  &= \frac{1}{3n}(n \cdot p + 2n \cdot p) \text{~~~applying the binomial expectation formula} \\
+  &= p \\
+\text{bias}(\hat{p}_1, p) &= E(\hat{p}_1) - p = 0.\\
+\intertext{Similarly,}
+E(\hat{p}_2) &= \frac{1}{2n}(E(X_1) + 0.5E(X_2)) \\
+  &= \frac{1}{2n}(n \cdot p + 0.5 \cdot 2n \cdot p) \\
+  &= p \\
+\text{bias}(\hat{p}_2, p) &= E(\hat{p}_2) - p = 0.
+\end{align*}
+
+Hence $\hat{p}_1$ and $\hat{p}_2$ are unbiased estimators of $p$.
+
+&nbsp;  
+
+\begin{enumerate}[resume]
+  \item \textbf{Find Var($\hat{p}_1$) and Var($\hat{p}_2$).}
+\end{enumerate}
+
+\begin{align*}
+Var(\hat{p}_1) &= \frac{1}{9n^2}(Var(X_1) + Var(X_2)) \text{~~~applying the formula for independent case} \\
+  &= \frac{1}{9n^2}(np(1-p)+2np(1-p)) \text{~~~applying the binomial variance formula} \\
+  &= \frac{p(1-p)}{3n}.
+\intertext{Similarly,}
+Var(\hat{p}_2) &= \frac{1}{4n^2}(Var(X_1) + 0.5^2Var(X_2)) \\
+  &= \frac{1}{4n^2}(np(1-p)+0.25 \cdot 2np(1-p)) \\
+  &= \frac{3p(1-p)}{8n}.
+\end{align*}
+&nbsp;  
+
+\begin{enumerate}[resume]
+  \item \textbf{Show that both estimators are consistent estimators of $p$.}
+\end{enumerate}
+
+
+
+
+
+
 
