@@ -34,6 +34,12 @@ knitr::opts_chunk$set(echo = TRUE)
 }
 \thispagestyle{firststyle}
 
+```{r, message = FALSE}
+library(tidyverse)
+```
+
+The original source code for this assignment can be found [\textcolor{blue}{here}](https://github.com/nzh-zhou/STAT2371-Assignment) after I make the repo public.
+
 # Question 1
 
 \textbf{Suppose that two independent binomial random variables $X_1$ and $X_2$ are observed where $X_1$ has a Binomial($n$, $p$) distribution and $X_2$ has a Binomial($2n, p$) distribution. You may assume that $n$ is known, whereas $p$ is an unknown parameter. Define two possible estimators of $p$}
@@ -65,11 +71,11 @@ Hence $\hat{p}_1$ and $\hat{p}_2$ are unbiased estimators of $p$.
 \end{enumerate}
 
 \begin{align*}
-Var(\hat{p}_1) &= \frac{1}{9n^2}(Var(X_1) + Var(X_2)) \text{~~~applying the formula for independent case} \\
+\text{Var}(\hat{p}_1) &= \frac{1}{9n^2}(\text{Var}(X_1) + \text{Var}(X_2)) \text{~~~applying the formula for independent case} \\
   &= \frac{1}{9n^2}(np(1-p)+2np(1-p)) \text{~~~applying the binomial variance formula} \\
   &= \frac{p(1-p)}{3n}.
 \intertext{Similarly,}
-Var(\hat{p}_2) &= \frac{1}{4n^2}(Var(X_1) + 0.5^2Var(X_2)) \\
+\text{Var}(\hat{p}_2) &= \frac{1}{4n^2}(\text{Var}(X_1) + 0.5^2\text{Var}(X_2)) \\
   &= \frac{1}{4n^2}(np(1-p)+0.25 \cdot 2np(1-p)) \\
   &= \frac{3p(1-p)}{8n}.
 \end{align*}
@@ -82,12 +88,12 @@ Var(\hat{p}_2) &= \frac{1}{4n^2}(Var(X_1) + 0.5^2Var(X_2)) \\
 \begin{align*}
 \intertext{Let $\varepsilon > 0$.}
 \lim_{n\to\infty} P(|\hat{p}_1-p| > \varepsilon) &\leq \lim_{n\to\infty} \frac{E\left((\hat{p}_1-p)^2\right)}{\varepsilon^2} \text{~~~applying Markov's inequality} \\
-  &= \lim_{n\to\infty} \frac{Var(\hat{p}_1)}{\varepsilon^2} \text{~~~since $\hat{p}_1$ is unbiased} \\
+  &= \lim_{n\to\infty} \frac{\text{Var}(\hat{p}_1)}{\varepsilon^2} \text{~~~since $\hat{p}_1$ is unbiased} \\
   &= \lim_{n\to\infty}\frac{p(1-p)}{3n\varepsilon^2} \\
   &= 0 \text{~~~for all $p \in [0,1]$.} \\
 \intertext{Applying the squeeze theorem, $\lim_{n\to\infty} P(|\hat{p}_1-p| > \varepsilon) = 0$. Similarly,}
 \lim_{n\to\infty} P(|\hat{p}_2-p| > \varepsilon) &\leq \lim_{n\to\infty} \frac{E\left((\hat{p}_2-p)^2\right)}{\varepsilon^2} \\
-  &= \lim_{n\to\infty} \frac{Var(\hat{p}_2)}{\varepsilon^2} \\
+  &= \lim_{n\to\infty} \frac{\text{Var}(\hat{p}_2)}{\varepsilon^2} \\
   &= \lim_{n\to\infty}\frac{3p(1-p)}{8n\varepsilon^2} \\
   &= 0 \text{~~~for all $p \in [0,1]$.}
 \intertext{So $\lim_{n\to\infty} P(|\hat{p}_2-p| > \varepsilon) = 0$. Hence $\hat{p}_1$ and $\hat{p}_2$ are weakly consistent estimators of $p$.}
@@ -144,23 +150,307 @@ Since $n$ is known and fixed, $\underset{\sim}{X}$ has a pdf in the exponential 
 
 # Question 2
 
-The random variables $X_1, X_2,\ldots , X_{2n}$ are independent and normally distributed with common variance $\sigma^2$. However, $X_1, X_2,\ldots , X_{n}$ have mean 0$0$ while $X_{n+1},X_{n+2},\ldots,X_{2n}$ have mean $\mu$.
+\textbf{The random variables $X_1, X_2,\ldots , X_{2n}$ are independent and normally distributed with common variance $\sigma^2$. However, $X_1, X_2,\ldots , X_{n}$ have mean 0 while $X_{n+1},X_{n+2},\ldots,X_{2n}$ have mean $\mu$.}
 
+\begin{enumerate}
+  \item \textbf{Write down the joint pdf of $X_1, X_2,\ldots , X_{2n}$ and hence the likelihood function and log-likelihood of $(\mu,\sigma^2)$.}
+\end{enumerate}
 
+\begin{align*}
+f_{\underset{\sim}{X}}(\underset{\sim}{x}) &= \prod_{i=1}^{n}(f_{X_i}(x_i))\prod_{i=n+1}^{2n}(f_{X_i}(x_i)) \text{~~~since each element of $\underset{\sim}{X}$ is independent} \\
+  &= \prod_{i=1}^{n} \left( (2\pi\sigma^2)^{-1/2}\text{exp}\left[ \frac{-1}{2} \left( \frac{x_i}{\sigma} \right)^2 \right] \right)
+  \prod_{i=n+1}^{2n} \left( (2\pi\sigma^2)^{-1/2}\text{exp}\left[ \frac{-1}{2} \left( \frac{x_i-\mu}{\sigma} \right)^2 \right] \right) \\
+  &= (2\pi\sigma^2)^{-n} \text{exp}\left( \frac{-1}{2} \left[ \sum_{i=1}^{n} \left( \left[\frac{x_i}{\sigma}\right]^2 \right)
+  + \sum_{i=n+1}^{2n} \left( \left[\frac{x_i-\mu}{\sigma}\right]^2 \right) \right] \right)
+\end{align*}
 
+\begin{equation*}
+L\left(\underset{\sim}{\theta} \equiv \begin{bmatrix} m \\ s^2 \end{bmatrix} \mid \underset{\sim}{X}\right) 
+  = (2\pi s^2)^{-n} \text{exp}\left( \frac{-1}{2} \left[ \sum_{i=1}^{n} \left( \left[\frac{X_i}{s}\right]^2 \right)
+  + \sum_{i=n+1}^{2n} \left( \left[\frac{X_i-m}{s}\right]^2 \right) \right] \right)
+\end{equation*}
 
+\begin{equation*}
+l\left(\underset{\sim}{\theta} \mid \underset{\sim}{X}\right) 
+  = -n\ln(2\pi s^2) - \frac{1}{2} \left[ \sum_{i=1}^{n} \left( \left[\frac{X_i}{s}\right]^2 \right)
+  + \sum_{i=n+1}^{2n} \left( \left[\frac{X_i-m}{s}\right]^2 \right) \right]
+\end{equation*}
+&nbsp;  
 
+\begin{enumerate}[resume]
+  \item \textbf{Show that the maximum likelihood estimators of $\mu$ and $\sigma^2$ are}
+  \[ \hat{\mu} = \frac{1}{n} \sum_{j=n+1}^{2n} \textbf{~~~and~~~} \hat{\sigma}^2 = \frac{1}{2n} \left( \sum_{j=1}^{2n} (X_j^2) - n\hat{\mu}^2 \right)\textbf{.} \]
+\end{enumerate}
 
+\begin{align*}
+s\left(\underset{\sim}{\theta} \mid \underset{\sim}{X}\right) 
+  &= \begin{bmatrix}
+  \frac{\partial}{\partial m} \left[\frac{-1}{2} \displaystyle \sum_{i=n+1}^{2n} \left( \left[\frac{X_i-m}{s}\right]^2 \right) \right] \\
+  \frac{\partial}{\partial s^2} \left[ -n\ln(2\pi s^2) - \frac{1}{2} \left[ \displaystyle\sum_{i=1}^{n} \left( \left[\frac{X_i}{s}\right]^2 \right) + \displaystyle\sum_{i=n+1}^{2n} \left( \left[\frac{X_i-m}{s}\right]^2 \right) \right] \right]
+  \end{bmatrix} \\
+  &= \begin{bmatrix}
+  \displaystyle \sum_{i=n+1}^{2n} \left( \frac{X_i-m}{s^2} \right) \\
+  \frac{-n}{s^2}+\frac{1}{2} \left[ \displaystyle\sum_{i=1}^{n} \left( \left[\frac{X_i}{s^2}\right]^2 \right) + \displaystyle\sum_{i=n+1}^{2n} \left( \left[\frac{X_i-m}{s^2}\right]^2 \right) \right]
+  \end{bmatrix} \\
+\underset{\sim}{0} &= s\left(\begin{bmatrix} \hat{\mu} \\ \hat{\sigma}^2 \end{bmatrix} \mid \underset{\sim}{X}\right) \\
+\underset{\sim}{0} &= \begin{bmatrix}
+  \displaystyle \sum_{i=n+1}^{2n} \left( X_i \right) - n\hat{\mu} \\
+  -n\hat{\sigma}^2 + \frac{1}{2} \left[ \displaystyle\sum_{i=1}^{n} \left( X_i^2 \right) + \displaystyle\sum_{i=n+1}^{2n} \left( \left[X_i-\hat{\mu}\right]^2 \right) \right]
+  \end{bmatrix} \\
+\begin{bmatrix}
+  \hat{\mu} \\
+  \hat{\sigma}^2
+\end{bmatrix} &= \begin{bmatrix}
+  \frac{1}{n} \displaystyle \sum_{i=n+1}^{2n} \left( X_i \right) \\
+  \frac{1}{2n} \left[ \displaystyle\sum_{i=1}^{n} \left( X_i^2 \right) + \displaystyle\sum_{i=n+1}^{2n} \left( X_i^2 -2X_i\hat{\mu} + \hat{\mu}^2 \right) \right]
+  \end{bmatrix} \\
+  &= \begin{bmatrix}
+  \frac{1}{n} \displaystyle \sum_{i=n+1}^{2n} \left( X_i \right) \\
+  \frac{1}{2n} \left[ \displaystyle\sum_{i=1}^{n} \left( X_i^2 \right) + \displaystyle\sum_{i=n+1}^{2n} (X_i^2)  -2n\hat{\mu}^2 + n\hat{\mu}^2 \right]
+  \end{bmatrix} \\
+  &= \begin{bmatrix}
+  \frac{1}{n} \displaystyle \sum_{i=n+1}^{2n} \left( X_i \right) \\
+  \frac{1}{2n} \left[ \displaystyle\sum_{i=1}^{2n} \left( X_i^2 \right) -n\hat{\mu}^2 \right]
+  \end{bmatrix}
+\end{align*}
 
+Assuming that this point gives a maximum of $L$, $\begin{bmatrix} \hat{\mu} \\ \hat{\sigma}^2 \end{bmatrix} = \begin{bmatrix}
+  \frac{1}{n} \sum_{i=n+1}^{2n} \left( X_i \right) \\
+  \frac{1}{2n} \left[ \sum_{i=1}^{2n} \left( X_i^2 \right) -n\hat{\mu}^2 \right]
+  \end{bmatrix}$ is the MLE of $\begin{bmatrix} \mu \\ \sigma^2 \end{bmatrix}$.
 
+&nbsp;  
 
+\begin{enumerate}[resume]
+  \item \textbf{Derive the Cramér-Rao lower bounds for the variances of unbiased estimators of $\tau(\mu, \sigma^2)$.}
+\end{enumerate}
 
+\begin{align*}
+I\left(\begin{bmatrix} \mu \\ \sigma^2 \end{bmatrix}\right) &= -E\left(\frac{\partial s}{\partial \underset{\sim}{\theta}^T} \left(\underset{\sim}{\theta} = \begin{bmatrix} \mu \\ \sigma^2 \end{bmatrix} \mid \underset{\sim}{X}\right)\right) \\
+  &= -E\left( \begin{bmatrix}
+  \displaystyle \sum_{i=n+1}^{2n} \left( \frac{-1}{\sigma^2} \right) & \displaystyle -\sum_{i=n+1}^{2n} \left( \frac{X_i-\mu}{\sigma^4} \right) \\
+  \displaystyle -\sum_{i=n+1}^{2n} \left( \frac{X_i-\mu}{\sigma^4} \right) & \frac{n}{\sigma^4} - \left[ \displaystyle\sum_{i=1}^{n} \left( \left[\frac{X_i}{\sigma^3}\right]^2 \right) + \displaystyle\sum_{i=n+1}^{2n} \left( \left[\frac{X_i-\mu}{\sigma^3}\right]^2 \right) \right] \end{bmatrix} \right) \\
+  &= \begin{bmatrix}
+  \frac{n}{\sigma^2} & 0 \\
+  0 & \frac{-n}{\sigma^4} + \sigma^{-6} \left[ \displaystyle\sum_{i=1}^{n} \left( E\left(X_i^2\right) \right) + \displaystyle\sum_{i=n+1}^{2n} \left( E\left( \left[ X_i-\mu \right]^2 \right) \right) \right] \end{bmatrix} \\
+  &= \begin{bmatrix}
+  \frac{n}{\sigma^2} & 0 \\
+  0 & \frac{-n}{\sigma^4} + \sigma^{-6} \left[ \displaystyle\sum_{i=1}^{n} \left( \sigma^2 + 0^2 \right) + \displaystyle\sum_{i=n+1}^{2n} \left( \sigma^2 \right) \right] \end{bmatrix} \\
+  &= \begin{bmatrix}
+  \frac{n}{\sigma^2} & 0 \\
+  0 & \frac{n}{\sigma^4} \end{bmatrix} \\
+\left(I\left(\begin{bmatrix} \mu \\ \sigma^2 \end{bmatrix}\right)\right)^{-1} &= \begin{bmatrix}
+  \frac{\sigma^2}{n} & 0 \\
+  0 & \frac{\sigma^4}{n} \end{bmatrix}
+\end{align*}
 
+\begin{align*}
+\intertext{The CRLB for the variances of unbiased $\tau(\mu, \sigma^2)$ estimators is}
+\begin{bmatrix} 
+  \frac{\partial \tau}{\partial \mu} & \frac{\partial \tau}{\partial \sigma^2} \end{bmatrix} \begin{bmatrix}
+  \frac{\sigma^2}{n} & 0 \\
+  0 & \frac{\sigma^4}{n} \end{bmatrix} \begin{bmatrix}
+  \frac{\partial \tau}{\partial \mu} \\
+  \frac{\partial \tau}{\partial \sigma^2} \end{bmatrix} =
+  \left(\frac{\partial \tau}{\partial \mu}\right)^2 \frac{\sigma^2}{n} + \left(\frac{\partial \tau}{\partial \sigma^2}\right)^2 \frac{\sigma^4}{n}.
+\end{align*}
+&nbsp;  
 
+\begin{enumerate}[resume]
+  \item \textbf{Briefly explain whether $\mu$ or $\sigma^2$ have unbiased estimators that attain the relevant Cramér-Rao lower bounds.}
+\end{enumerate}
 
+From the expression of $s\left(\underset{\sim}{\theta} \mid \underset{\sim}{X}\right)$, it depends linearly on 
+\[ \sum_{i=1}^{2n} \left(X_i^2\right), \text{~~and~~} \sum_{i=n+1}^{2n} \left(X_i\right). \]
 
+\begin{align*}
+E\left( \sum_{i=1}^{2n} \left(X_i^2\right) \right) &= 2n\sigma^2 + n\mu^2 \\
+E\left( \sum_{i=n+1}^{2n} \left(X_i\right) \right) &= n\mu
+\end{align*}
 
+So only unbiased estimators of $a(2\sigma^2+\mu^2) + b\mu + c$, where $a$, $b$, and $c$ are real numbers, can attain the CRLB. Setting $(a=0, b=1, c=0)$, there exist unbiased estimators for $\mu$ that attain the CRLB variance, but there is no such combination for $\sigma^2$.
 
+&nbsp;  
+
+\begin{enumerate}[resume]
+  \item \textbf{For either maximum likelihood estimator in (b) above that is biased, find the unique minimum variance unbiased estimator, and explain why it is so.}
+\end{enumerate}
+
+\begin{align*}
+E\left( \hat{\sigma}^2 \right) &= \frac{1}{2n} \left( 2n\sigma^2 + n\mu^2 - n \left( \frac{\sigma^2}{n} + \mu^2 \right) \right) \\
+&= \frac{2n-1}{2n} \sigma^2
+\end{align*}
+
+Hence the estimator for $\sigma^2$ is biased. From the pdf of $\underset{\sim}{X}$, the exponent of $e$ can be split into the product of a function of $\begin{bmatrix} \mu \\ \sigma^2 \end{bmatrix}$ alone and another function of $\underset{\sim}{X}$ alone. Hence the pdf is in the exponential family and any sufficient static is also complete. Via the sufficient statistic factorisation theorem, it is also apparent from the exponent that a sufficient and complete statistic is
+
+\[ S \equiv \begin{bmatrix} \displaystyle \sum_{i=1}^{2n} \left(X_i^2\right) \\ \displaystyle \sum_{i=n+1}^{2n} \left(X_i\right) \end{bmatrix}. \]
+
+By the Lehmann-Scheffé theorem, the unique MVUE is
+
+\begin{align*}
+E\left(\frac{2n}{2n-1} \hat{\sigma}^2 \mid S\right) &= \frac{1}{2n-1} E\left( \sum_{j=1}^{2n} (X_j^2) - n\hat{\mu}^2 \mid S \right) \\
+&= \frac{1}{2n-1} \left( \sum_{j=1}^{2n} (X_j^2) - n\hat{\mu}^2 \right) \text{~~~(conditioning on $S$ gives no variability).}
+\end{align*}
+&nbsp;  
+
+# Question 3
+
+\begin{enumerate}
+  \item \textbf{Suppose components are manufactured to a target diameter 20 cm. An earlier process capability assessment has shown that the standard deviation of the diameter is 0.5 cm. At the end of each day, a component is chosen at random from the day’s production, and the diameter is measured to ensure that the process has not moved off target. In R, generate a data set of size 30 from Normal($\mu = 20, \sigma^2 = 0.25$), set the observations into a vector called data1. Plot the data and the appropriate target, warning and action lines using R function abline; label the lines. Comment on the results.}
+\end{enumerate}
+
+```{r, out.width = "75%", fig.align = 'center'}
+set.seed(46375058)
+#generate random samples
+data1 <- rnorm(30, 20, sqrt(0.25))
+#warning lines
+warn <- qnorm(c(0.025, 0.975), 20, sqrt(0.25))
+#action lines
+act <- qnorm(c(0.005, 0.995), 20, sqrt(0.25))
+
+#plot data points
+plot(x = 1:30, y = data1, main = "Daily sampling results",
+     xlab = "day", ylab = "sample diameter", ylim = c(18, 23))
+
+#plot warning and action lines
+abline(h = warn, col = "blue")
+abline(h = act, col = "red")
+#create legend
+legend(x = 0, y = 23, legend = c("warning lines", "action lines"), col = c("blue", "red"), lty = 1)
+```
+
+Two data points (`r round(2/30*100, 2) %>% paste0("%")` of data points) lie outside the warning lines, and the rest fall inside. This is to be expected with random variation.
+
+&nbsp;  
+
+\begin{enumerate}[resume]
+  \item \textbf{In R, generate data sets of size 30 from} 
+  \begin{enumerate}
+    \item \textbf{Normal($\mu$ = 20.2, $\sigma^2$ = 0.25),}
+    \item \textbf{Normal($\mu$ = 22, $\sigma^2$ = 0.25),}
+  \end{enumerate}
+  \textbf{set the observations into vectors called data2.i and data2.ii, respectively. Plot the data and the appropriate target, warning and action lines; label the lines. Comment on the results.}
+\end{enumerate}
+
+```{r, out.width = "75%", fig.align = 'center'}
+set.seed(46375058)
+#generate random samples
+data2.i <- rnorm(30, 20.2, sqrt(0.25))
+data2.ii <- rnorm(30, 22, sqrt(0.25))
+
+#plot data points
+plot(x = 1:30, y = data2.i, main = "Daily sampling results",
+     xlab = "day", ylab = "sample diameter", ylim = c(18.8, 25))
+points(x = 1:30, y = data2.ii, col = "green4")
+
+#plot warning and action lines
+abline(h = warn, col = "blue")
+abline(h = act, col = "red")
+#create legend
+legend(x = 0, y = 25, legend = c("warning lines", "action lines"), col = c("blue", "red"), lty = 1)
+legend(x = 24, y = 25, legend = c("mu = 20.2", "mu = 22"), col = c("black", "green4"), pch = 1)
+```
+
+As $\mu$ increases, there are a greater number of points above both the warning and action lines.
+
+&nbsp;  
+
+\begin{enumerate}[resume]
+  \item \textbf{This quality control procedure can be treated as a sequence of independent hypothesis testing $H_{0,i}$: the process is under control ($\mu$ = 20) versus}
+  \begin{enumerate}
+    \item \textbf{$H_{1,i}$: the process is out of control ($\mu$ = 20.2),}
+    \item \textbf{$H_{1,i}$: the process is out of control ($\mu$ = 22),}
+  \end{enumerate}
+  \textbf{for $i = 1, \ldots, 30$. Suppose that the quality control procedure rejects $H_{0,i}$ if the observation $d_i$ is outside the action lines. For both (i) and (ii), find $\alpha$, probability of Type I error, and $\beta$, probability of Type II error.}
+\end{enumerate}
+
+Let $X$ represent the data from a single sample.
+\begin{align*}
+\alpha &= P\left(\left|\frac{X-20}{\sigma}\right| > z_{0.995} \mid H_0 \right) \\
+  &= P(|Z| > z_{0.995}) \\
+  &= 2*(1-0.995) = 0.01
+\end{align*}
+\begin{align*}
+\intertext{When $\mu = 20.2$,}
+\beta &= P\left( \left|\frac{X-20}{\sigma}\right| < z_{0.995} \mid \mu=20.2 \right) \\
+  &= P\left( 20-z_{0.995}\sigma < X < 20+z_{0.995}\sigma \mid \mu=20.2 \right) \\
+  &= `r (pnorm(20 + qnorm(0.995)*sqrt(0.25), 20.2, sqrt(0.25)) - pnorm(20 - qnorm(0.995)*sqrt(0.25), 20.2, sqrt(0.25))) %>% round(4)`.
+\end{align*}
+
+The inline code used is `(pnorm(20 + qnorm(0.995)*sqrt(0.25), 20.2, sqrt(0.25)) - pnorm(20 - qnorm(0.995)*sqrt(0.25), 20.2, sqrt(0.25))) %>% round(4)`.
+
+```{r, echo=FALSE}
+c0 <- pnorm(20 + qnorm(0.995)*sqrt(0.25), 20.2, sqrt(0.25)) - pnorm(20 - qnorm(0.995)*sqrt(0.25), 20.2, sqrt(0.25))
+```
+
+\begin{align*}
+\intertext{Similarly, when $\mu = 22$,}
+\beta &= P\left( \left|\frac{X-20}{\sigma}\right| < z_{0.995} \mid \mu=22 \right) \\
+  &= P\left( 20-z_{0.995}\sigma < X < 20+z_{0.995}\sigma \mid \mu=22 \right) \\
+  &= `r (pnorm(20 + qnorm(0.995)*sqrt(0.25), 22, sqrt(0.25)) - pnorm(20 - qnorm(0.995)*sqrt(0.25), 22, sqrt(0.25))) %>% round(4)`.
+\end{align*}
+
+The inline code used is `(pnorm(20 + qnorm(0.995)*sqrt(0.25), 22, sqrt(0.25)) - pnorm(20 - qnorm(0.995)*sqrt(0.25), 22, sqrt(0.25))) %>% round(4)`.
+
+```{r, echo=FALSE}
+c1 <- pnorm(20 + qnorm(0.995)*sqrt(0.25), 22, sqrt(0.25)) - pnorm(20 - qnorm(0.995)*sqrt(0.25), 22, sqrt(0.25))
+```
+&nbsp;  
+
+\begin{enumerate}[resume]
+  \item \textbf{Let us consider this problem within the Bayesian framework. Suppose that, after analysing a relevant archive of data, we know that $P$(the process is under control) = 0.1 and $P$(the process is out of control) = 0.9. Using Bayes’ formula, for both (i) and (ii), calculate}\\\\
+  \centerline{\textbf{$R_0$ = $P$(the process is under control | $H_1$ is accepted),}}  
+  \centerline{\textbf{$R_1$ = $P$(the process is out of control | $H_0$ is accepted).}}\\\\
+  \textbf{Comment on which pair, ($\alpha$,$\beta$) or ($R_0$,$R_1$), would better reflect producer’s and customer’s risks.}
+\end{enumerate}
+
+\begin{align*}
+R_0 &= \frac{P(\text{the process is under control and $H_1$ is accepted})}{P(\text{$H_1$ is accepted})} \text{~~~applying Bayes' formula} \\
+  &= \frac{P(\text{the process is under control and $H_1$ is accepted})}{P(\text{the process is under control and $H_1$ is accepted}) + P(\text{the process is out of control and $H_1$ is accepted})} \\
+  &= \frac{0.1 \cdot 0.01}{0.1 \cdot 0.01 + 0.9 \cdot (1 - `r round(c0, 4)`)} = `r ((0.1*0.01)/(0.1*0.01+0.9*c0)) %>% round(6)`
+\end{align*}
+
+\begin{align*}
+\intertext{Similarly,}
+R_1 &= \frac{P(\text{the process is out of control and $H_0$ is accepted})}{P(\text{$H_0$ is accepted})} \\
+  &= \frac{P(\text{the process is out of control and $H_0$ is accepted})}{P(\text{the process is out of control and $H_0$ is accepted}) + P(\text{the process is under control and $H_0$ is accepted})} \\
+  &= \frac{0.9 \cdot `r round(c1, 4)`}{0.9 \cdot `r round(c1, 4)` + 0.1 \cdot 0.99} = `r ((0.9*c1)/(0.9*c1+0.1*0.99)) %>% round(6)`
+\end{align*}
+&nbsp;  
+
+\begin{enumerate}[resume]
+  \item \textbf{Consider the cusum procedure that rejects $H_0$: $\mu$ = 20, if $|S_t| > c_t$, where $c_t$ is a threshold. Under $H_0$, find a sequence of the thresholds $c_t$ such that $P$(Type I error) = 0.01 for $t = 1, \ldots, 30$. In R, plot the thresholds $c_t$ and the cusum charts for data1 and data2.i. Provide comments.}
+\end{enumerate}
+
+\begin{align*}
+\intertext{Let $X_i$ represent the data from the sample on day $i$.}
+0.01 &= P(|S_t| > c_t \mid \mu = 20) \\
+P(|Z| > z_{0.995}) &= P\left( \left| \frac{ \displaystyle \sum_{i=1}^{t}(X_i) - t \cdot 20}{\sqrt{t}\sigma}\right| > \frac{c_t}{\sqrt{t}\sigma} \mid \mu = 20 \right) = P\left(|Z| > \frac{c_t}{\sqrt{t}\sigma}\right) \\
+c_t &= \sqrt{t}\sigma z_{0.995}
+\end{align*}
+
+```{r, out.width = "75%", fig.align = 'center'}
+#compute thresholds
+thr <- sqrt(1:30) * sqrt(0.25) * qnorm(0.995)
+
+#compute cumulative sums
+cs_d1 <- cumsum(data1 - 20)
+cs_d2i <- cumsum(data2.i - 20)
+
+#plot points
+plot(1:30, cs_d1, main = "Daily sampling cumulative sum results",
+     xlab = "day", ylab = "sample diameter", ylim = c(0, 11.5))
+points(x = 1:30, y = cs_d2i, col = "green4")
+#plot threshold
+lines(1:30, thr, col = "red")
+lines(1:30, -thr, col = "red")
+
+#create legend
+legend(x = 0, y = 11, legend = c("mu = 20", "mu = 20.2", "threshold"), col = c("black", "green4", "red"), 
+       lty = c(0, 0, 1), pch = c(1, 1, NA))
+```
+
+The data points for $\mu = 20$ all lie below the threshold line while the data for $\mu = 20.2$ lies above the threshold line when $t = 5$ and when $t \geq 9$. The accumulated error when $\mu \neq 20$ is obvious as the days progress.
 
 
 
