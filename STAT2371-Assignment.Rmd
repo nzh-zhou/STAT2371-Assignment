@@ -316,7 +316,8 @@ plot(x = 1:30, y = data1, main = "Daily sampling results",
 abline(h = warn, col = "blue")
 abline(h = act, col = "red")
 #create legend
-legend(x = 0, y = 23, legend = c("warning lines", "action lines"), col = c("blue", "red"), lty = 1)
+legend(x = 0, y = 23, legend = c("warning lines", "action lines"), 
+       col = c("blue", "red"), lty = 1)
 ```
 
 Two data points (`r round(2/30*100, 2) %>% paste0("%")` of data points) lie outside the warning lines, and the rest fall inside. This is to be expected with random variation.
@@ -347,8 +348,10 @@ points(x = 1:30, y = data2.ii, col = "green4")
 abline(h = warn, col = "blue")
 abline(h = act, col = "red")
 #create legend
-legend(x = 0, y = 25, legend = c("warning lines", "action lines"), col = c("blue", "red"), lty = 1)
-legend(x = 24, y = 25, legend = c("mu = 20.2", "mu = 22"), col = c("black", "green4"), pch = 1)
+legend(x = 0, y = 25, legend = c("warning lines", "action lines"), 
+       col = c("blue", "red"), lty = 1)
+legend(x = 24, y = 25, legend = c("mu = 20.2", "mu = 22"), 
+       col = c("black", "green4"), pch = 1)
 ```
 
 As $\mu$ increases, there are a greater number of points above both the warning and action lines.
@@ -446,8 +449,8 @@ lines(1:30, thr, col = "red")
 lines(1:30, -thr, col = "red")
 
 #create legend
-legend(x = 0, y = 11, legend = c("mu = 20", "mu = 20.2", "threshold"), col = c("black", "green4", "red"), 
-       lty = c(0, 0, 1), pch = c(1, 1, NA))
+legend(x = 0, y = 11, legend = c("mu = 20", "mu = 20.2", "threshold"), 
+       col = c("black", "green4", "red"), lty = c(0, 0, 1), pch = c(1, 1, NA))
 ```
 
 The data points for $\mu = 20$ all lie below the threshold line while the data for $\mu = 20.2$ lies above the threshold line when $t = 5$ and when $t \geq 9$. The accumulated error when $\mu \neq 20$ is obvious as the days progress.
