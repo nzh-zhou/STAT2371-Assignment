@@ -79,6 +79,86 @@ Var(\hat{p}_2) &= \frac{1}{4n^2}(Var(X_1) + 0.5^2Var(X_2)) \\
   \item \textbf{Show that both estimators are consistent estimators of $p$.}
 \end{enumerate}
 
+\begin{align*}
+\intertext{Let $\varepsilon > 0$.}
+\lim_{n\to\infty} P(|\hat{p}_1-p| > \varepsilon) &\leq \lim_{n\to\infty} \frac{E\left((\hat{p}_1-p)^2\right)}{\varepsilon^2} \text{~~~applying Markov's inequality} \\
+  &= \lim_{n\to\infty} \frac{Var(\hat{p}_1)}{\varepsilon^2} \text{~~~since $\hat{p}_1$ is unbiased} \\
+  &= \lim_{n\to\infty}\frac{p(1-p)}{3n\varepsilon^2} \\
+  &= 0 \text{~~~for all $p \in [0,1]$.} \\
+\intertext{Applying the squeeze theorem, $\lim_{n\to\infty} P(|\hat{p}_1-p| > \varepsilon) = 0$. Similarly,}
+\lim_{n\to\infty} P(|\hat{p}_2-p| > \varepsilon) &\leq \lim_{n\to\infty} \frac{E\left((\hat{p}_2-p)^2\right)}{\varepsilon^2} \\
+  &= \lim_{n\to\infty} \frac{Var(\hat{p}_2)}{\varepsilon^2} \\
+  &= \lim_{n\to\infty}\frac{3p(1-p)}{8n\varepsilon^2} \\
+  &= 0 \text{~~~for all $p \in [0,1]$.}
+\intertext{So $\lim_{n\to\infty} P(|\hat{p}_2-p| > \varepsilon) = 0$. Hence $\hat{p}_1$ and $\hat{p}_2$ are weakly consistent estimators of $p$.}
+\end{align*}
+
+\begin{enumerate}[resume]
+  \item \textbf{Show that $\hat{p}_1$ is the most efficient estimator among all unbiased estimators.}
+\end{enumerate}
+
+\begin{align*}
+\intertext{$\underset{\sim}{X} \equiv \begin{bmatrix}
+  X_1\\
+  X_2
+\end{bmatrix}$, $\underset{\sim}{x} \equiv \begin{bmatrix}
+x_1\\
+x_2
+\end{bmatrix}$.}
+f_{\underset{\sim}{X}}(\underset{\sim}{x}, p) &= f_{X_1}(x_1, p) \cdot f_{X_2}(x_2, p) \text{~~~applying the r.v. independence definition} \\
+  &= \begin{cases}
+  \binom{n}{x_1}p^{x_1}(1-p)^{n-x_1} \cdot \binom{2n}{x_2}p^{x_2}(1-p)^{2n-x_2} &\text{if $x_1 \in [0, n] \cap \mathbb{N}$ and $x_2 \in [0, 2n] \cap \mathbb{N}$}\\
+  0 &\text{if otherwise}
+\end{cases} \\
+  &= \begin{cases}
+  \binom{n}{x_1}\binom{2n}{x_2}p^{x_1+x_2}(1-p)^{3n-(x_1+x_2)} &\text{if $x_1 \in [0, n] \cap \mathbb{N}$ and $x_2 \in [0, 2n] \cap \mathbb{N}$}\\
+  0 &\text{if otherwise}
+\end{cases} \\
+  &= \begin{cases}
+  \binom{n}{x_1}\binom{2n}{x_2}exp\left(\begin{bmatrix}
+  ln(p)\\
+  ln(1-p)
+\end{bmatrix}^T \begin{bmatrix}
+  x_1+x_2 \\
+  3n-(x_1+x_2)
+\end{bmatrix}\right) &\text{if $x_1 \in [0, n] \cap \mathbb{N}$ and $x_2 \in [0, 2n] \cap \mathbb{N}$}\\
+  0 &\text{if otherwise}
+\end{cases}
+\end{align*}
+
+Since $n$ is known and fixed, $\underset{\sim}{X}$ has a pdf in the exponential family, and any sufficient static is also complete. $X_1+X_2$ is thus sufficient and complete by the sufficient statistic factorisation theorem. By the Lehmann-Scheffé theorem, $E(\hat{p}_1 \mid X_1+X_2) = \hat{p}_1$ is the unique MVUE, i.e. it is the most efficient estimator among all unbiased estimators.
+
+&nbsp;  
+
+\begin{enumerate}[resume]
+  \item \textbf{Derive the efficiency of the estimator $\hat{p}_1$ relative to $\hat{p}_2$.}
+\end{enumerate}
+
+\begin{align*}
+\text{eff}(\hat{p}_2, \hat{p}_1, p) &= \frac{\text{MSE}(\hat{p}_2, p)}{\text{MSE}(\hat{p}_1, p)}
+  = \frac{\text{Var}(\hat{p}_2) + \left(\text{bias}(\hat{p}_2, p)\right)^2}{\text{Var}(\hat{p}_1) + \left(\text{bias}(\hat{p}_1, p)\right)^2}
+  = \frac{\frac{3p(1-p)}{8n}}{\frac{p(1-p)}{3n}} \\
+  &= \frac{9}{8}
+\end{align*}
+&nbsp;  
+
+# Question 2
+
+The random variables $X_1, X_2,\ldots , X_{2n}$ are independent and normally distributed with common variance $\sigma^2$. However, $X_1, X_2,\ldots , X_{n}$ have mean 0$0$ while $X_{n+1},X_{n+2},\ldots,X_{2n}$ have mean $\mu$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
